@@ -17,7 +17,7 @@ namespace HW6._1
         public MainForm()
         {
             InitializeComponent();
-            List<figure> Figur = new List<figure>();
+            Figur = new List<figure>();
             Figur.Add(new PawnWhite());
             Figur.Add(new СastleWhite());
             Figur.Add(new KnightWhite());
@@ -30,6 +30,7 @@ namespace HW6._1
             Figur.Add(new BishopBlack());
             Figur.Add(new KingBlack());
             Figur.Add(new QueenBlack());
+            
         }
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
@@ -113,6 +114,7 @@ namespace HW6._1
             Rectangle[,] rect = new Rectangle[8, 8];
             Pen BlackPen = new Pen(cust2);
             Rectangle border = new Rectangle(99, 99, 341, 341);
+            
             gs.DrawRectangle(BlackPen, border);
             gs.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             gs.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
@@ -144,7 +146,6 @@ namespace HW6._1
             gs.DrawImage(Figur[4].Image, new Rectangle(102 + 150, 102 + (50 * 7), 45, 45));
             gs.DrawImage(Figur[5].Image, new Rectangle(102 + 200, 102 + (50 * 7), 45, 45));
 
-
             for (int i = 0; i < 400; i += 50)
                 gs.DrawImage(Figur[6].Image, new Rectangle(102 + i, 102 + 50, 45, 45));
 
@@ -156,8 +157,25 @@ namespace HW6._1
             gs.DrawImage(Figur[9].Image, new Rectangle(102 + 250, 102, 45, 45));
             gs.DrawImage(Figur[10].Image, new Rectangle(102 + 150, 102, 45, 45));
             gs.DrawImage(Figur[11].Image, new Rectangle(102 + 200, 102, 45, 45));
-
         }
+
+        private void MainForm_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.X > 99 && e.X < 499 && (e.Y > 99 && e.Y < 199 || e.Y > 399 && e.Y < 499))
+                contextMenu.Show(this, e.Location);
+            contextMenu.PointToClient(new Point(e.X, e.Y));
+        }
+
+        private void MainForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            Text = e.Location.ToString();
+        }
+
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
         public class figure
         {
             string name;
@@ -290,15 +308,13 @@ namespace HW6._1
         {
             public Image imege = Image.FromFile(@"черныйФ.jpg");
 
+
             public override Image Image
             {
                 get => imege;
             }
         }
 
-        private void contextMenuStrip1_MouseClick(object sender, MouseEventArgs e)
-        {
-           
-        }
+       
     }
 }
